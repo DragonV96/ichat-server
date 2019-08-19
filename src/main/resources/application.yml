@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ichat-dev?useUnicode=true&characterEncoding=UTF-8
     username: root
-    password:
+    password: .666.
     type: com.zaxxer.hikari.HikariDataSource  # 连接池数据源类型,可省略
     hikari:
       connection-timeout: 30000   # 等待连接池分配链接的最大时长（毫秒），超过此时长还没可用的连接则发生SQLException，默认：30秒
@@ -26,6 +26,8 @@ server:
 mybatis:
   type-aliases-package: com.ichat.pojo
   mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # 通用Mapper配置
 mapper:
@@ -49,7 +51,7 @@ fdfs:
     width: 80
     height: 80
   tracker-list:            #TrackerList参数,支持多个
-  - 192.168.1.44:22122
+  - 10.104.186.29:22122
 
 
 
