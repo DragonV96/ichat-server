@@ -12,6 +12,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
  * @Description ：处理消息的handler
  * TextWebSocketFrame： 在netty中，用于为websocket专门处理文本的对象，frame是消息的载体
  */
-
+@Slf4j
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     // 用于记录和管理所有客户端的channel
@@ -52,7 +53,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
 //            // 测试
 //            for (Channel c : users) {
-//                System.out.println(c.id().asLongText());
+//                log.info(c.id().asLongText());
 //            }
             UserChannelRelationship.outPut();
 
@@ -105,7 +106,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
                     msgIdList.add(mid);
                 }
             }
-//            System.out.println(msgIdList.toString());
+//            log.info(msgIdList.toString());
 
             if (msgIdList != null && !msgIdList.isEmpty() && msgIdList.size() > 0) {
                 // 批量签收
@@ -114,7 +115,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
         } else if (action == MsgActionEnum.KEEPALIVE.type) {
             // 2.4 心跳类型的消息
-//            System.out.println("收到来自channel为：[" + currentChannel + "]的心跳包");
+            log.info("收到来自channel为：{}的心跳包", currentChannel);
         }
 
     }
@@ -133,7 +134,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
 
         String channelId = ctx.channel().id().asShortText();
-//        System.out.println("客户端被移除，channelId为：" + channelId);
+        log.info("客户端被移除，channelId为{}", channelId);
 
         // 当触发handlerRemoved，ChannelGroup会自动移除对应客户端的channel
         users.remove(ctx.channel());

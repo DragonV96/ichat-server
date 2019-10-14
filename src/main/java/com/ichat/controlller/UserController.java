@@ -11,6 +11,7 @@ import com.ichat.utils.FastDFSClient;
 import com.ichat.utils.FileUtils;
 import com.ichat.utils.IChatJSONResult;
 import com.ichat.utils.MD5Utils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.List;
  * @author glw
  * @date 2018/11/14 15:04
  */
+@Slf4j
 @RestController
 @RequestMapping("u")
 public class UserController {
@@ -80,7 +82,7 @@ public class UserController {
         // 上传文件到fastdfs
         MultipartFile headFile = FileUtils.fileToMultipart(userHeadPath);
         String url = fastDFSClient.uploadBase64(headFile);
-//        System.out.println(url);
+//        log.info(url);
 
         // "fasfaffasfaffsf.png"
         // "fasfaffasfaffsf_80x80.png"

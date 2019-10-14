@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<springProperty scope="context" name="LOG_DIR" source="logging.path" defaultValue="/data/logs"></springProperty>-->
+    <springProperty scope="context" name="LOG_DIR" source="logging.path"></springProperty>
+    <!--控制台日志输出配置-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--对输出日志进行格式化-->
+        <encoder>
+            <!-- %d日期,%p日志级别,%file文件名,%line所在行数,%m输出的信息,%n换行 -->
+            <pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [ %boldYellow(%thread)] [%highlight(%-5level)] %cyan(%logger{50}):%L - %msg%n</pattern>
+            <!--字符编码-->
+            <charset>UTF-8</charset><!--此处设置字符集-->
+        </encoder>
+    </appender>
+
+    <!--日志文件配置-->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建，没有默认值。-->
+        <!--滚动记录文件：根据时间来制定滚动策略-->
+        <file>${LOG_DIR}/${LOG_FILE}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/ichat.%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <maxFileSize>20MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] %logger{50}:%L - %msg%n</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+    </appender>
+
+    <logger name="com.ichat" level="INFO"/>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

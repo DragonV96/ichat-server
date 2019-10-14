@@ -10,11 +10,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Service
 public class FileUtils {
 	/**
@@ -81,7 +83,7 @@ public class FileUtils {
 		File file = null;
 		try {
 			file = File.createTempFile("pattern", "." + suffix);
-			System.out.println("临时文件位置：" + file.getCanonicalPath());
+			log.info("临时文件位置：" + file.getCanonicalPath());
 			FileOutputStream fstream = new FileOutputStream(file);
 			stream = new BufferedOutputStream(fstream);
 			stream.write(b);

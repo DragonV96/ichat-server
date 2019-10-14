@@ -1,6 +1,7 @@
 package com.ichat.netty;
 
 import io.netty.channel.Channel;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
  * 2018/12/8 17:36
  * 用户id和Channel的关联关系处理
  */
+@Slf4j
 public class UserChannelRelationship {
     private static HashMap<String, Channel> manager = new HashMap<>();
 
@@ -22,7 +24,7 @@ public class UserChannelRelationship {
 
     public static void outPut() {
         for (HashMap.Entry<String, Channel> entry : manager.entrySet()) {
-            System.out.println("UserId：" + entry.getKey() + " ，对应ChannelId：" + entry.getValue().id().asLongText());
+            log.info("UserId：{} ，对应ChannelId：{}", entry.getKey(), entry.getValue().id().asLongText());
         }
     }
 }

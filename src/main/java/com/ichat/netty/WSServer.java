@@ -5,12 +5,14 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
  * Create by glw
  * 2018/11/11 23:29
  */
+@Slf4j
 @Component
 public class WSServer {
 
@@ -41,7 +43,7 @@ public class WSServer {
     // 启动netty
     public void start(){
         this.channelFuture = server.bind(8088);
-        System.err.println("netty websocket server 启动完毕...");
+        log.info("netty websocket server 启动完毕...");
     }
 
 }

@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- 默认打包方式，jar打包，springboot内置 -->
-    <!-- <packaging>jar</packaging> -->
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
+<!--    <packaging>war</packaging>-->
 
     <groupId>com.ichat</groupId>
     <artifactId>ichat-weixin-maven</artifactId>
@@ -38,12 +38,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
         <dependency>
@@ -136,12 +136,27 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
-        <!-- 打包成war -->
+        <!-- lombok插件 -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- log插件 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <!-- 打包成war -->
+<!--        <dependency>-->
+<!--            <groupId>javax.servlet</groupId>-->
+<!--            <artifactId>javax.servlet-api</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
     </dependencies>
 
     <!-- 打包 -->

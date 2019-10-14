@@ -1,8 +1,11 @@
+host:
+  private: 127.0.0.1
+
 # 配置相关数据源 使用HikariCP数据源
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ichat-dev?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://${host.private}:3306/ichat-dev?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: .666.
     type: com.zaxxer.hikari.HikariDataSource  # 连接池数据源类型,可省略
@@ -51,7 +54,14 @@ fdfs:
     width: 80
     height: 80
   tracker-list:            #TrackerList参数,支持多个
-  - 10.104.186.29:22122
+  - ${host.private}:22122
+
+logging:
+  path: /data/log
+  file: ${logging.path}/ichat.log
+  config: classpath:logback-spring.xml
+  level:
+    com.icaht: info
 
 
 

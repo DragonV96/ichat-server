@@ -3,9 +3,11 @@ package com.ichat.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.Md5Crypt;
 
+@Slf4j
 public class MD5Utils {
 
 	/**
@@ -20,7 +22,7 @@ public class MD5Utils {
 	public static void main(String[] args) {
 		try {
 			String md5 = getMD5Str("ichat");
-			System.out.println(md5);
+			log.info("MD5Utils main md5={}", md5);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
