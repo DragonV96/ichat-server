@@ -1,5 +1,5 @@
-DROP DATABASE  IF EXISTS ichat-dev;
-CREATE DATABASE ichat-dev;
+﻿DROP DATABASE  IF EXISTS `ichat-dev`;
+CREATE DATABASE `ichat-dev`;
 
 USE `ichat-dev`;
 
@@ -235,8 +235,3 @@ insert  into `users`(`id`,`username`,`password`,`head_image`,`head_image_big`,`n
 ('181209GZ6D1W2Y80','lx','gDfM6oUAb+509Y+G7fF4jg==','','','lx','M00/00/00/wKgBnlwNJTiALzXFAAABpQVJQvI360.png','b47d7d9201445c611d2f91e7331f5228'),
 
 ('181209H5AM95BY14','111','aY1RoZ2KEhzlgUmde3AWaA==','M00/00/00/wKgBnlwNKfaADNqkADy-oqPZ0zw624_80x80.png','M00/00/00/wKgBnlwNKfaADNqkADy-oqPZ0zw624.png','111','M00/00/00/wKgBnlwNKYyASsY_AAABpO3pQpw779.png','b47d7d9201445c611d2f91e7331f5228');
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
