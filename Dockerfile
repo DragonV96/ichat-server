@@ -7,15 +7,18 @@ MAINTAINER glw
 # 设置环境变量
 ENV JAVA_OPTIONS -Xmx768m
 
+# 设置公共路径
+ARG INSTALL_DIR=/data/apps
+
 # 复制文件
-ADD ./*.jar /data/apps/ichat.jar
+ADD ./*.jar ${INSTALL_DIR}/ichat.jar
+COPY ./*.yml ${INSTALL_DIR}/config/
 
 # 设置数据挂在目录及工作目录
-VOLUME ["/data/apps","/data/log","/data/file"]
-WORKDIR /data/apps
+WORKDIR ${INSTALL_DIR}
 
 #设置对外的端口号
 EXPOSE 8080
 
 #容器启动后执行该命令
-CMD java $JAVA_OPTIONS -jar /data/apps/ichat.jar --server.port=$serverPort
+CMD java $JAVA_OPTIONS -jar /data/apps/ichat.jar -Dspring.config.location=/data/apps/config/

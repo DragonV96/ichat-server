@@ -11,6 +11,8 @@ import com.ichat.utils.FastDFSClient;
 import com.ichat.utils.FileUtils;
 import com.ichat.utils.IChatJSONResult;
 import com.ichat.utils.MD5Utils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +29,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("u")
+@Api(tags = "用户接口", description = "用户接口")
 public class UserController {
 
     @Autowired
@@ -35,7 +38,7 @@ public class UserController {
     @Autowired
     private FastDFSClient fastDFSClient;
 
-    // post相比get更安全
+    @ApiOperation(value = "注册or登陆", notes = "若用户存在则登陆，不存在则直接注册并自动登陆")
     @PostMapping("/registOrLogin")
     public IChatJSONResult registOrLogin(@RequestBody Users user) throws Exception {
 
@@ -70,7 +73,7 @@ public class UserController {
         return IChatJSONResult.ok(usersVO);
     }
 
-
+    @ApiOperation(value = "上传头像", notes = "上传头像到文件服务器")
     @PostMapping("/uploadFaceBase64")
     public IChatJSONResult uploadFaceBase64(@RequestBody UsersBO userBO) throws Exception {
 
@@ -103,6 +106,7 @@ public class UserController {
         return IChatJSONResult.ok(result);
     }
 
+    @ApiOperation(value = "更改昵称", notes = "更改用户昵称")
     @PostMapping("/setNickname")
     public IChatJSONResult setNickname(@RequestBody UsersBO userBO) throws Exception {
         // 更新用户昵称
@@ -120,12 +124,12 @@ public class UserController {
 
     /**
      * 搜索好友接口,根据账号做精确匹配查询而不是模糊查询
-     *
      * @param myUserId
      * @param friendUsername
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "搜索好友", notes = "搜索好友")
     @PostMapping("/search")
     public IChatJSONResult searchUser(String myUserId, String friendUsername) throws Exception {
         // 判断myUserId和friendUsername不能为空
@@ -156,6 +160,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "添加好友", notes = "添加好友")
     @PostMapping("/addFriendRequest")
     public IChatJSONResult addFriendRequest(String myUserId, String friendUsername) throws Exception {
         // 判断myUserId和friendUsername不能为空
@@ -182,6 +187,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "查询好友请求", notes = "查询好友请求")
     @PostMapping("/queryFriendRequests")
     public IChatJSONResult queryFriendRequests(String userId) throws Exception {
         // 1. 判断myUserId和friendUsername不能为空
@@ -200,6 +206,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "通过好友请求", notes = "通过好友请求")
     @PostMapping("/opreFriendRequest")
     public IChatJSONResult opreFriendRequest(String accpetUserId, String sendUserId, Integer operType) throws Exception {
         // 1. 判断accpetUserId sendUserId operType不能为空
@@ -231,6 +238,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "查询好友列表", notes = "查询好友列表")
     @PostMapping("/myFriends")
     public IChatJSONResult myFriends(String userId) throws Exception {
         // 1. userId判断不能为空
@@ -250,6 +258,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "获取未签收消息", notes = "获取未签收消息")
     @PostMapping("/getUnReadMsgList")
     public IChatJSONResult getUnReadMsgList(String acceptUserId) throws Exception {
         // 1. userId判断不能为空
@@ -259,7 +268,6 @@ public class UserController {
 
         // 2. 查询列表
         List<com.ichat.pojo.ChatMsg> unreadList = userService.getUnReadMsgList(acceptUserId);
-
         return IChatJSONResult.ok(unreadList);
     }
 }

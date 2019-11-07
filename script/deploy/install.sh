@@ -56,6 +56,6 @@ docker exec -i mysql sh -c "exec mysql -uroot -proot" < /usr/local/mysql/chat.sq
 
 #创建ichat容器并启动
 echo "===============创建ichat容器并启动...==============="
-docker run --name ichat --net=host --restart=always -m 1024m -e JAVA_OPTIONS="-Xmx768m" -e appName="ichat.jar" --privileged=true -e serverPort=8080 -v /usr/local/apps/ichat/log:/data/log -d ichat:1.0.0
+docker run --name ichat --net=host --restart=always -m 1024m -e JAVA_OPTIONS="-Xmx768m" -e appName="ichat.jar" --privileged=true -e serverPort=8080 -v /usr/local/apps/ichat/conf:/data/apps/config -v /usr/local/apps/ichat/log:/data/log -d ichat:1.0.0
 echo "*************************部署完成*************************"
 

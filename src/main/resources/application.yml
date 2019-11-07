@@ -1,5 +1,6 @@
 host:
-  private: 127.0.0.1
+  private: 192.168.241.130
+  #private: 127.0.0.1
 
 # 配置相关数据源 使用HikariCP数据源
 spring:
@@ -7,7 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://${host.private}:3306/ichat-dev?useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: .666.
+    password: root
     type: com.zaxxer.hikari.HikariDataSource  # 连接池数据源类型,可省略
     hikari:
       connection-timeout: 30000   # 等待连接池分配链接的最大时长（毫秒），超过此时长还没可用的连接则发生SQLException，默认：30秒
