@@ -1,9 +1,12 @@
 package com.ichat.enums;
 
+import lombok.Getter;
+
 /**
  * Create by glw
  * 2018/12/1 20:35
  */
+@Getter
 public enum OperatorFriendRequestTypeEnum {
 
     IGNORE(0, "忽略"),
@@ -15,10 +18,6 @@ public enum OperatorFriendRequestTypeEnum {
     OperatorFriendRequestTypeEnum(Integer type, String msg) {
         this.type = type;
         this.msg = msg;
-    }
-
-    public Integer getType() {
-        return type;
     }
 
     public static String getMsgByType(Integer type) {

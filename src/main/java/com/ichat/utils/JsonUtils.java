@@ -38,9 +38,9 @@ public class JsonUtils {
      * @param clazz 对象中的object类型
      * @return
      */
-    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) {
+    public static <T> T jsonToPojo(String jsonData, Class<T> clazz) {
         try {
-            T t = MAPPER.readValue(jsonData, beanType);
+            T t = MAPPER.readValue(jsonData, clazz);
             return t;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -53,11 +53,11 @@ public class JsonUtils {
      * <p>Title: jsonToList</p>
      * <p>Description: </p>
      * @param jsonData
-     * @param beanType
+     * @param clazz
      * @return
      */
-    public static <T>List<T> jsonToList(String jsonData, Class<T> beanType) {
-    	JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, beanType);
+    public static <T>List<T> jsonToList(String jsonData, Class<T> clazz) {
+    	JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, clazz);
     	try {
     		List<T> list = MAPPER.readValue(jsonData, javaType);
     		return list;

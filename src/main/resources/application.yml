@@ -28,7 +28,7 @@ server:
 
 # mybatis配置
 mybatis:
-  type-aliases-package: com.ichat.pojo
+  type-aliases-package: com.ichat.*.entity
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

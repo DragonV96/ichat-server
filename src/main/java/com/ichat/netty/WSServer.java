@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 /**
  * Create by glw
  * 2018/11/11 23:29
+ * websocket netty服务
  */
 @Slf4j
 @Component
@@ -25,17 +26,17 @@ public class WSServer {
         return SingletionWSServer.instance;
     }
 
-    private EventLoopGroup mainGroup;
-    private EventLoopGroup subGroup;
+    private EventLoopGroup bossGroup;
+    private EventLoopGroup workerGroup;
     private ServerBootstrap server;
     private ChannelFuture channelFuture;
 
     // 初始化netty组件
     public WSServer(){
-        mainGroup = new NioEventLoopGroup();
-        subGroup = new NioEventLoopGroup();
+        bossGroup = new NioEventLoopGroup();
+        workerGroup = new NioEventLoopGroup();
         server = new ServerBootstrap();
-        server.group(mainGroup, subGroup)
+        server.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new WSServerInitializer());
     }

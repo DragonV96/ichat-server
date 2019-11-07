@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ichat.mapper.UsersMapper" >
-  <resultMap id="BaseResultMap" type="com.ichat.pojo.Users" >
+<mapper namespace="com.ichat.user.mapper.UsersMapper" >
+  <resultMap id="BaseResultMap" type="com.ichat.user.entity.Users" >
     <!--
       WARNING - @mbg.generated
     -->

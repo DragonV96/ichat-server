@@ -1,5 +1,7 @@
 package com.ichat.netty;
 
+import com.ichat.netty.handler.ChatHandler;
+import com.ichat.netty.handler.HeartBeatHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

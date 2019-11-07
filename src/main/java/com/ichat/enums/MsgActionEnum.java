@@ -5,7 +5,6 @@ package com.ichat.enums;
  * 2018/12/8 17:20
  */
 public enum MsgActionEnum {
-
     CONNECT(1, "第一次（或重连）初始化连接"),
     CHAT(2, "聊天消息"),
     SIGNED(3, "消息签收"),

@@ -1,10 +1,13 @@
 package com.ichat.enums;
 
+import lombok.Getter;
+
 /**
  * Create by glw
  * 2018/11/26 21:51
  * 添加好友前置状态 枚举
  */
+@Getter
 public enum SearchFriendsStatusEnum {
     SUCCESS(0, "OK"),
     USER_NOT_EXIST(1, "无此用户..."),
@@ -17,10 +20,6 @@ public enum SearchFriendsStatusEnum {
     SearchFriendsStatusEnum(Integer status, String msg){
         this.status = status;
         this.msg = msg;
-    }
-
-    public Integer getStatus() {
-        return status;
     }
 
     public static String getMsgByKey(Integer status) {
