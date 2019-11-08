@@ -1,6 +1,6 @@
 host:
   private: 192.168.241.130
-  #private: 127.0.0.1
+  local: 127.0.0.1
 
 # 配置相关数据源 使用HikariCP数据源
 spring:
@@ -58,7 +58,7 @@ fdfs:
   - ${host.private}:22122
 
 logging:
-  path: /data/log
+  path: /usr/local/apps/ichat/log
   file: ${logging.path}/ichat.log
   config: classpath:logback-spring.xml
   level:
