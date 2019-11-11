@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.ichat.utils;
+package com.ichat.common.utils;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
@@ -34,6 +34,5 @@ import tk.mybatis.mapper.common.MySqlMapper;
  * @since 2015-09-06 21:53
  */
 public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {
-    //TODO
     //FIXME 特别注意，该接口不能被扫描到，否则会出错
 }

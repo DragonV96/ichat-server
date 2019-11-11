@@ -1,15 +1,16 @@
 package com.ichat.user.service.impl;
 
+import com.ichat.chat.entity.ChatMsg;
 import com.ichat.chat.mapper.ChatMsgMapper;
 import com.ichat.chat.mapper.ChatMsgMapperCustom;
-import com.ichat.enums.MsgActionEnum;
-import com.ichat.enums.MsgSignFlagEnum;
-import com.ichat.enums.SearchFriendsStatusEnum;
-import com.ichat.fastdfs.FastDFSClient;
+import com.ichat.common.enums.MsgActionEnum;
+import com.ichat.common.enums.MsgSignFlagEnum;
+import com.ichat.common.enums.SearchFriendsStatusEnum;
+import com.ichat.common.fastdfs.FastDFSClient;
 import com.ichat.friends.mapper.FriendsRequestMapper;
 import com.ichat.friends.mapper.MyFriendsMapper;
 import com.ichat.friends.mapper.MyFriendsMapperCustom;
-import com.ichat.netty.vo.ChatMsg;
+import com.ichat.netty.vo.ChatMessage;
 import com.ichat.netty.vo.DataContent;
 import com.ichat.netty.service.UserChannelRelationship;
 import com.ichat.friends.entity.FriendsRequest;
@@ -19,8 +20,8 @@ import com.ichat.friends.entity.vo.FriendRequestVO;
 import com.ichat.friends.entity.vo.MyFriendsVO;
 import com.ichat.user.mapper.UsersMapper;
 import com.ichat.user.mapper.UsersMapperCustom;
+import com.ichat.common.utils.*;
 import com.ichat.user.service.UserService;
-import com.ichat.utils.*;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.n3r.idworker.Sid;
@@ -73,24 +74,30 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private FastDFSClient fastDFSClient;
 
-    // 查询用户是否存在
+    /**
+     * 查询用户是否存在
+     * @param username
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public boolean queryUsernameIsExist(String username) {
-
         Users user = new Users();
         user.setUsername(username);
-
         Users result = userMapper.selectOne(user);
 
         return result != null ? true : false;
     }
 
-    // 查询用户是否登录
+    /**
+     * 查询用户是否登录
+     * @param username
+     * @param password
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public Users queryUserForLogin(String username, String password) {
-
         // 利用逆向工具类查询用户登陆,省去了SQL语句的编写
         Example userExample = new Example(Users.class);
         Criteria criteria = userExample.createCriteria();
@@ -103,18 +110,20 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    // 保存用户名
+    /**
+     * 保存用户名
+     * @param user
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Users saveUser(Users user) {
-
         String userId = sid.nextShort();
 
         // 为每个用户生成一个唯一的二维码
-
-//        String qrCodePath = "\\fastdfs\\tmp\\" + userId + "qrcode.png";
+//        String qrCodePath = "\\usr\\local\\fastdfs\\tmp\\" + userId + "qrcode.png";
         String qrCodePath = "G:\\tmp\\" + userId + "qrcode.png";
-        // ichat_qrcode:[username]  (商用需要加解密，如base64)
+        // ichat_qrcode:[username]  (为安全考虑需要加解密，如base64)
         qrCodeUtils.createQRCode(qrCodePath, "ichat_qrcode:" + user.getUsername());
         MultipartFile qrCodeFile = FileUtils.fileToMultipart(qrCodePath);
 
@@ -131,20 +140,34 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    // 更新用户名
+    /**
+     * 更新用户名
+     * @param user
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Users updateUserInfo(Users user) {
         userMapper.updateByPrimaryKeySelective(user);
         return queryUserById(user.getId());
     }
-    //通过id查询user
+
+    /**
+     * 通过id查询用户
+     * @param userId
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
-    private Users queryUserById(String userId){
+    protected Users queryUserById(String userId){
         return userMapper.selectByPrimaryKey(userId);
     }
 
-    // 添加好友前置条件
+    /**
+     * 添加好友前置条件
+     * @param myUserId
+     * @param friendUsername
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public Integer preConditionSearchFriends(String myUserId, String friendUsername) {
@@ -174,7 +197,11 @@ public class UserServiceImpl implements UserService {
         return SearchFriendsStatusEnum.SUCCESS.status;
     }
 
-    // 根据用户名查询用户
+    /**
+     * 根据用户名查询用户
+     * @param username
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public Users queryUserInfoByUsername(String username) {
@@ -184,7 +211,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOneByExample(user);
     }
 
-    // 发送好友请求（注意：连续点击只能发送一次好友请求）
+    /**
+     * 发送好友请求（注意：连续点击只能发送一次好友请求）
+     * @param myUserId
+     * @param friendUsername
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void sendFriendRequest(String myUserId, String friendUsername) {
@@ -212,14 +243,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // 查询好友申请列表
+    /**
+     * 查询好友申请列表
+     * @param acceptUserId
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public List<FriendRequestVO> queryFriendRequestList(String acceptUserId) {
         return usersMapperCustom.queryFriendRequestList(acceptUserId);
     }
 
-    // 忽略好友，删除好友请求
+    /**
+     * 忽略好友，删除好友请求
+     * @param sendUserId
+     * @param accpetUserId
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteFriendRequest(String sendUserId, String accpetUserId) {
@@ -231,7 +270,11 @@ public class UserServiceImpl implements UserService {
         friendsRequestMapper.deleteByExample(friendExample);
     }
 
-    // 通过好友请求
+    /**
+     * 通过好友请求
+     * @param sendUserId
+     * @param accpetUserId
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void passFriendRequest(String sendUserId, String accpetUserId) {
@@ -258,9 +301,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // 保存添加的好友关联关系到数据库
+    /**
+     * 保存添加的好友关联关系到数据库
+     * @param sendUserId
+     * @param acceptUserId
+     */
     @Transactional(propagation = Propagation.REQUIRED)
-    private void saveFriends(String sendUserId, String acceptUserId){
+    protected void saveFriends(String sendUserId, String acceptUserId){
         MyFriends myFriends = new MyFriends();
         String recordId = sid.nextShort();
         myFriends.setId(recordId);
@@ -269,7 +316,11 @@ public class UserServiceImpl implements UserService {
         myFriendsMapper.insert(myFriends);
     }
 
-    // 查询用户好友列表
+    /**
+     * 查询用户好友列表
+     * @param userId
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public List<MyFriendsVO> queryMyFriends(String userId) {
@@ -277,41 +328,52 @@ public class UserServiceImpl implements UserService {
         return myFriends;
     }
 
-    // 保存聊天消息到数据库
+    /**
+     * 保存聊天消息到数据库
+     * @param chatMessage
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public String saveMsg(ChatMsg chatMsg) {
-        com.ichat.chat.entity.ChatMsg msgDB = new com.ichat.chat.entity.ChatMsg();
+    public String saveMsg(ChatMessage chatMessage) {
+        ChatMsg msgDB = new ChatMsg();
         String msgId = sid.nextShort();
         msgDB.setId(msgId);
-        msgDB.setAcceptUserId(chatMsg.getReceiverId());
-        msgDB.setSendUserId(chatMsg.getSenderId());
+        msgDB.setAcceptUserId(chatMessage.getReceiverId());
+        msgDB.setSendUserId(chatMessage.getSenderId());
         msgDB.setCreateTime(new Date());
         msgDB.setSignFlag(MsgSignFlagEnum.unsign.type);
-        msgDB.setMsg(chatMsg.getMsg());
+        msgDB.setMsg(chatMessage.getMsg());
 
         chatMsgMapper.insert(msgDB);
 
         return msgId;
     }
 
-    // 批量签收消息
+    /**
+     * 批量签收消息
+     * @param msgIdList
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void updateMsgSigned(List<String> msgIdList) {
         chatMsgMapperCustom.batchUpdateMsgSigned(msgIdList);
     }
 
-    // 获取已读消息列表
+    /**
+     * 获取已读消息列表
+     * @param acceptUserId
+     * @return
+     */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public List<com.ichat.chat.entity.ChatMsg> getUnReadMsgList(String acceptUserId) {
-        Example chatExample = new Example(com.ichat.chat.entity.ChatMsg.class);
+    public List<ChatMsg> getUnReadMsgList(String acceptUserId) {
+        Example chatExample = new Example(ChatMsg.class);
         Criteria chatCondition = chatExample.createCriteria();
         chatCondition.andEqualTo("signFlag", 0);
         chatCondition.andEqualTo("acceptUserId", acceptUserId);
 
-        List<com.ichat.chat.entity.ChatMsg> result = chatMsgMapper.selectByExample(chatExample);
+        List<ChatMsg> result = chatMsgMapper.selectByExample(chatExample);
 
         return result;
     }

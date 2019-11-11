@@ -1,4 +1,4 @@
-package com.ichat.fastdfs;
+package com.ichat.common.fastdfs;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

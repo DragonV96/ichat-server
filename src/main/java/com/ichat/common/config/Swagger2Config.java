@@ -1,4 +1,4 @@
-package com.ichat.config;
+package com.ichat.common.config;
 
 import com.google.common.base.Predicates;
 import com.ichat.Application;

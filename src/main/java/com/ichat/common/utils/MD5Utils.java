@@ -1,11 +1,9 @@
-package com.ichat.utils;
+package com.ichat.common.utils;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.Md5Crypt;
 
 @Slf4j
 public class MD5Utils {

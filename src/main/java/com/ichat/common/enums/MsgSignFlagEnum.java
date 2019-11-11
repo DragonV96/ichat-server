@@ -1,4 +1,4 @@
-package com.ichat.enums;
+package com.ichat.common.enums;
 
 import lombok.Getter;
 

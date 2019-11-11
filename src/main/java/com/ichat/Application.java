@@ -1,6 +1,6 @@
 package com.ichat;
 
-import com.ichat.utils.SpringUtil;
+import com.ichat.common.utils.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

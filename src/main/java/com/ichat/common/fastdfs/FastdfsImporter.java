@@ -1,4 +1,4 @@
-package com.ichat.fastdfs;
+package com.ichat.common.fastdfs;
 
 import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.springframework.context.annotation.Configuration;

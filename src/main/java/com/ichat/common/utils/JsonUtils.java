@@ -1,4 +1,4 @@
-package com.ichat.utils;
+package com.ichat.common.utils;
 
 import java.util.List;
 

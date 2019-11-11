@@ -1,6 +1,8 @@
 package com.ichat.netty.vo;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,11 +13,17 @@ import java.io.Serializable;
  * 数据包内容
  */
 @Data
+@ApiModel(value = "数据包内容")
 public class DataContent implements Serializable {
 
     private static final long serialVersionUID = -7865167970939580448L;
 
-    private Integer action;     // 动作类型
-    private ChatMsg chatMsg;    // 用户的聊天内容entity
-    private String extand;      // 扩展字段
+    @ApiModelProperty(value = "操作类型")
+    private Integer action;
+
+    @ApiModelProperty(value = "用户的聊天内容entity")
+    private ChatMessage chatMessage;
+
+    @ApiModelProperty(value = "扩展字段")
+    private String extand;
 }

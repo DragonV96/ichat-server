@@ -2,7 +2,7 @@ package com.ichat.friends.mapper;
 
 import com.ichat.user.entity.Users;
 import com.ichat.friends.entity.vo.MyFriendsVO;
-import com.ichat.utils.MyMapper;
+import com.ichat.common.utils.MyMapper;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface MyFriendsMapperCustom  extends MyMapper<Users> {
 
-    public List<MyFriendsVO> queryMyFriends(String userId);
+    List<MyFriendsVO> queryMyFriends(String userId);
 
 }

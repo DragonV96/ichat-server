@@ -1,17 +1,17 @@
 package com.ichat.user.controlller;
 
 import com.ichat.chat.entity.ChatMsg;
-import com.ichat.enums.OperatorFriendRequestTypeEnum;
-import com.ichat.enums.SearchFriendsStatusEnum;
+import com.ichat.common.enums.OperatorFriendRequestTypeEnum;
+import com.ichat.common.enums.SearchFriendsStatusEnum;
 import com.ichat.user.entity.Users;
 import com.ichat.user.entity.vo.UsersBO;
 import com.ichat.friends.entity.vo.MyFriendsVO;
 import com.ichat.user.entity.vo.UsersVO;
 import com.ichat.user.service.UserService;
-import com.ichat.fastdfs.FastDFSClient;
-import com.ichat.utils.FileUtils;
-import com.ichat.utils.IChatJSONResult;
-import com.ichat.utils.MD5Utils;
+import com.ichat.common.fastdfs.FastDFSClient;
+import com.ichat.common.utils.FileUtils;
+import com.ichat.common.utils.IChatJSONResult;
+import com.ichat.common.utils.MD5Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +26,7 @@ import java.util.List;
 /**
  * @author glw
  * @date 2018/11/14 15:04
+ * @Description : 用户接口
  */
 @Slf4j
 @RestController
@@ -80,7 +81,7 @@ public class UserController {
 
         // 获取前端传过来的base64字符串，然后转换为文件对象再上传
         String base64Data = userBO.getHeadData();
-//        String userHeadPath = "\\fastdfs\\tmp\\" + userBO.getUserId() + "userFace64.png";
+//        String userHeadPath = "\\usr\\local\\fastdfs\\tmp\\" + userBO.getUserId() + "userFace64.png";
         String userHeadPath = "G:\\tmp\\" + userBO.getUserId() + "userFace64.png";
         FileUtils.base64ToFile(userHeadPath, base64Data);
 

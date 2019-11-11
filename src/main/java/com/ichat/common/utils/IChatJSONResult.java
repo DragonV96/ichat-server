@@ -1,4 +1,4 @@
-package com.ichat.utils;
+package com.ichat.common.utils;
 
 /**
  * @Description: 自定义响应数据结构

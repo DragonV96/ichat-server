@@ -1,13 +1,13 @@
 package com.ichat.netty.handler;
 
 import com.ichat.netty.service.UserChannelRelationship;
-import com.ichat.netty.vo.ChatMsg;
+import com.ichat.netty.vo.ChatMessage;
 import com.ichat.netty.vo.DataContent;
-import com.ichat.utils.SpringUtil;
-import com.ichat.enums.MsgActionEnum;
+import com.ichat.common.utils.SpringUtil;
+import com.ichat.common.enums.MsgActionEnum;
 import com.ichat.user.service.UserService;
-import com.ichat.utils.AESUtils;
-import com.ichat.utils.JsonUtils;
+import com.ichat.common.utils.AESUtils;
+import com.ichat.common.utils.JsonUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -50,7 +50,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
         if (action == MsgActionEnum.CONNECT.type) {
             // 2.1 当websocket第一次open的时候，初始化channel，把用户的channel和userId关联起来
-            String sendUserId = dataContent.getChatMsg().getSenderId();
+            String sendUserId = dataContent.getChatMessage().getSenderId();
             UserChannelRelationship.put(sendUserId, currentChannel);
 
 //            // 测试
@@ -61,19 +61,19 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
         } else if (action == MsgActionEnum.CHAT.type) {
             // 2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的签收状态[未签收]
-            ChatMsg chatMsg = dataContent.getChatMsg();
-            String msgText = chatMsg.getMsg();
-            String receiveUserId = chatMsg.getReceiverId();
-            String sendUserId = chatMsg.getSenderId();
+            ChatMessage chatMessage = dataContent.getChatMessage();
+            String msgText = chatMessage.getMsg();
+            String receiveUserId = chatMessage.getReceiverId();
+            String sendUserId = chatMessage.getSenderId();
 
             // 保存消息到数据库，并且标记为未签收
             UserService userService = (UserService)SpringUtil.getBean("userServiceImpl");
-            String msgId = userService.saveMsg(chatMsg);
-            chatMsg.setMsgId(msgId);
+            String msgId = userService.saveMsg(chatMessage);
+            chatMessage.setMsgId(msgId);
 
             // 将chatMsg装入dataContent中
             DataContent dataContentMsg = new DataContent();
-            dataContentMsg.setChatMsg(chatMsg);
+            dataContentMsg.setChatMessage(chatMessage);
 
             // 发送消息
             // 从全局用户Channel关系中获取接收方的channel

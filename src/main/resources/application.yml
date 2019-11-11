@@ -35,7 +35,7 @@ mybatis:
 
 # 通用Mapper配置
 mapper:
-  mappers: com.ichat.utils.MyMapper
+  mappers: com.ichat.common.utils.MyMapper
   not-empty: false
   identity: MYSQL
 
