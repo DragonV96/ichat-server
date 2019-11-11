@@ -38,13 +38,14 @@ mkdir /usr/local/apps/ichat/conf/
 cp *.yml /usr/local/apps/ichat/conf/
 
 #拉取镜像文件
-echo "===============拉取mysql镜像文件...==============="
-docker pull mysql:5.7.26
 echo "===============拉取fastdfs镜像文件...==============="
 docker pull season/fastdfs
 docker tag season/fastdfs:5.11 fastdfs-nginx:v5.11
 echo "===============加载ichat镜像文件...==============="
 docker build -t ichat:1.0.0 .
+echo "===============加载mysql镜像文件...==============="
+cd mysql
+docker build -t mysql:5.7.26 .
 
 #检测ip
 function check_ip() {
