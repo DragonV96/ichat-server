@@ -1,11 +1,7 @@
 package com.ichat.user.controlller;
 
-import com.ichat.chat.entity.ChatMsg;
-import com.ichat.common.enums.OperatorFriendRequestTypeEnum;
-import com.ichat.common.enums.SearchFriendsStatusEnum;
 import com.ichat.user.entity.Users;
 import com.ichat.user.entity.vo.UsersBO;
-import com.ichat.friends.entity.vo.MyFriendsVO;
 import com.ichat.user.entity.vo.UsersVO;
 import com.ichat.user.service.UserService;
 import com.ichat.common.fastdfs.FastDFSClient;
@@ -21,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 /**
  * @author glw
  * @date 2018/11/14 15:04
@@ -30,7 +24,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("u")
+@RequestMapping("user")
 @Api(tags = "用户接口", description = "用户接口")
 public class UserController {
 
@@ -123,154 +117,5 @@ public class UserController {
             return IChatJSONResult.ok(result);
         }
         return IChatJSONResult.errorMsg("出错啦！");
-    }
-
-    /**
-     * 搜索好友接口,根据账号做精确匹配查询而不是模糊查询
-     * @param myUserId
-     * @param friendUsername
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "搜索好友", notes = "搜索好友")
-    @PostMapping("/search")
-    public IChatJSONResult searchUser(String myUserId, String friendUsername) throws Exception {
-        // 判断myUserId和friendUsername不能为空
-        if (StringUtils.isBlank(myUserId) || StringUtils.isBlank(friendUsername)) {
-            return IChatJSONResult.errorMsg("");
-        }
-
-        // 前置条件 - 1. 搜索的用户不存在，返回 [无此用户]
-        // 前置条件 - 2. 搜索的账号是自己，返回 [不能添加自己为好友]
-        // 前置条件 - 3. 搜索的用户已经是好友，返回 [好友已存在，不能重复添加好友]
-        Integer status = userService.preConditionSearchFriends(myUserId, friendUsername);
-        if (status == SearchFriendsStatusEnum.SUCCESS.status) {
-            Users user = userService.queryUserInfoByUsername(friendUsername);
-
-            UsersVO usersVO = new UsersVO();
-            BeanUtils.copyProperties(user, usersVO);
-            return IChatJSONResult.ok(usersVO);
-        } else {
-            String errorMsg = SearchFriendsStatusEnum.getMsgByKey(status);
-            return IChatJSONResult.errorMsg(errorMsg);
-        }
-    }
-
-    /**
-     * 发送添加好友的请求
-     * @param myUserId
-     * @param friendUsername
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "添加好友", notes = "添加好友")
-    @PostMapping("/addFriendRequest")
-    public IChatJSONResult addFriendRequest(String myUserId, String friendUsername) throws Exception {
-        // 判断myUserId和friendUsername不能为空
-        if (StringUtils.isBlank(myUserId) || StringUtils.isBlank(friendUsername)) {
-            return IChatJSONResult.errorMsg("");
-        }
-
-        // 前置条件 - 1. 搜索的用户不存在，返回 [无此用户]
-        // 前置条件 - 2. 搜索的账号是自己，返回 [不能添加自己为好友]
-        // 前置条件 - 3. 搜索的用户已经是好友，返回 [好友已存在，不能重复添加好友]
-        Integer status = userService.preConditionSearchFriends(myUserId, friendUsername);
-        if (status == SearchFriendsStatusEnum.SUCCESS.status) {
-            userService.sendFriendRequest(myUserId, friendUsername);
-        } else {
-            String errorMsg = SearchFriendsStatusEnum.getMsgByKey(status);
-            return IChatJSONResult.errorMsg(errorMsg);
-        }
-        return IChatJSONResult.ok();
-    }
-
-    /**
-     * 查询发送添加好友的请求
-     * @param userId
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "查询好友请求", notes = "查询好友请求")
-    @PostMapping("/queryFriendRequests")
-    public IChatJSONResult queryFriendRequests(String userId) throws Exception {
-        // 1. 判断myUserId和friendUsername不能为空
-        if (StringUtils.isBlank(userId)) {
-            return IChatJSONResult.errorMsg("");
-        }
-        // 2. 查询用户接受到的添加好友申请
-        return IChatJSONResult.ok(userService.queryFriendRequestList(userId));
-    }
-
-    /**
-     * 接收方 通过或者忽略朋友的请求
-     * @param accpetUserId
-     * @param sendUserId
-     * @param operType
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "通过好友请求", notes = "通过好友请求")
-    @PostMapping("/opreFriendRequest")
-    public IChatJSONResult opreFriendRequest(String accpetUserId, String sendUserId, Integer operType) throws Exception {
-        // 1. 判断accpetUserId sendUserId operType不能为空
-        if (StringUtils.isBlank(accpetUserId) || StringUtils.isBlank(sendUserId) || operType == null) {
-            return IChatJSONResult.errorMsg("");
-        }
-
-        // 2. 如果operType 没有对应的枚举值，则直接抛出空错误信息
-        if (StringUtils.isBlank(OperatorFriendRequestTypeEnum.getMsgByType(operType))) {
-            return IChatJSONResult.errorMsg("");
-        }
-
-        if (operType == OperatorFriendRequestTypeEnum.IGNORE.type) {
-            // 3. 判断如果忽略好友请求，则直接删除好友请求的数据库表记录
-            userService.deleteFriendRequest(sendUserId, accpetUserId);
-        } else if (operType == OperatorFriendRequestTypeEnum.PASS.type) {
-            // 4. 判断如果通过好友请求，则互相增加好友记录到数据库好友表
-            // 5. 然后删除好友请求的数据库表记录
-            userService.passFriendRequest(sendUserId, accpetUserId);
-        }
-        // 6. 数据库查询好友列表（通过请求后更新）
-        List<MyFriendsVO> myFriends = userService.queryMyFriends(accpetUserId);
-        return IChatJSONResult.ok(myFriends);
-    }
-
-    /**
-     * 查询我的好友列表
-     * @param userId
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "查询好友列表", notes = "查询好友列表")
-    @PostMapping("/myFriends")
-    public IChatJSONResult myFriends(String userId) throws Exception {
-        // 1. userId判断不能为空
-        if (StringUtils.isBlank(userId)) {
-            return IChatJSONResult.errorMsg("");
-        }
-
-        // 2. 数据库查询好友列表
-        List<MyFriendsVO> myFriends = userService.queryMyFriends(userId);
-
-        return IChatJSONResult.ok(myFriends);
-    }
-
-    /**
-     * 用户手机端获取未签收的消息列表
-     * @param acceptUserId
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "获取未签收消息", notes = "获取未签收消息")
-    @PostMapping("/getUnReadMsgList")
-    public IChatJSONResult getUnReadMsgList(String acceptUserId) throws Exception {
-        // 1. userId判断不能为空
-        if (StringUtils.isBlank(acceptUserId)) {
-            return IChatJSONResult.errorMsg("");
-        }
-
-        // 2. 查询列表
-        List<ChatMsg> unreadList = userService.getUnReadMsgList(acceptUserId);
-        return IChatJSONResult.ok(unreadList);
     }
 }

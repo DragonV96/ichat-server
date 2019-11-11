@@ -1,5 +1,7 @@
 <h1><center>跨平台仿微信即时通讯聊天app</center></h1>
 
+如果本项目对你有用，还请在项目右上角点个star~，谢谢大佬支持。
+
 # 作品简介
 
 ​		本项目采用前后端分离开发，面向restful风格的接口编程。
@@ -16,6 +18,8 @@
 - SpringBoot
 - Nginx+FastDFS分布式文件系统
 - Mybatis
+- lombok + slf4j
+- swagger
 
 后端项目：[传送门](https://github.com/DragonV96/ichat-server)
 

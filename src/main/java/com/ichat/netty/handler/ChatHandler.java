@@ -1,11 +1,11 @@
 package com.ichat.netty.handler;
 
+import com.ichat.chat.service.ChatService;
 import com.ichat.netty.service.UserChannelRelationship;
 import com.ichat.netty.vo.ChatMessage;
 import com.ichat.netty.vo.DataContent;
 import com.ichat.common.utils.SpringUtil;
 import com.ichat.common.enums.MsgActionEnum;
-import com.ichat.user.service.UserService;
 import com.ichat.common.utils.AESUtils;
 import com.ichat.common.utils.JsonUtils;
 import io.netty.channel.Channel;
@@ -67,8 +67,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
             String sendUserId = chatMessage.getSenderId();
 
             // 保存消息到数据库，并且标记为未签收
-            UserService userService = (UserService)SpringUtil.getBean("userServiceImpl");
-            String msgId = userService.saveMsg(chatMessage);
+            ChatService chatService = (ChatService)SpringUtil.getBean("chatServiceImpl");
+            String msgId = chatService.saveMsg(chatMessage);
             chatMessage.setMsgId(msgId);
 
             // 将chatMsg装入dataContent中
@@ -97,7 +97,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
         } else if (action == MsgActionEnum.SIGNED.type) {
             // 2.3 签收消息类型，针对具体的消息进行签收，修改数据库中对应消息的签收状态[已签收]
-            UserService userService = (UserService)SpringUtil.getBean("userServiceImpl");
+            ChatService chatService = (ChatService)SpringUtil.getBean("chatServiceImpl");
             // 扩展字段在signed类型的消息中，代表需要去签收的消息id，逗号间隔
             String msgIdsStr = dataContent.getExtand();
             String msgIds[] = msgIdsStr.split(",");
@@ -112,7 +112,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 
             if (msgIdList != null && !msgIdList.isEmpty() && msgIdList.size() > 0) {
                 // 批量签收
-                userService.updateMsgSigned(msgIdList);
+                chatService.updateMsgSigned(msgIdList);
             }
 
         } else if (action == MsgActionEnum.KEEPALIVE.type) {
