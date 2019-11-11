@@ -8,6 +8,7 @@ import com.ichat.common.enums.MsgSignFlagEnum;
 import com.ichat.netty.vo.ChatMessage;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -21,6 +22,7 @@ import java.util.List;
  * @time : 15:13
  * @Description : 聊天业务层实现类
  */
+@Service
 public class ChatServiceImpl implements ChatService {
 
     @Autowired

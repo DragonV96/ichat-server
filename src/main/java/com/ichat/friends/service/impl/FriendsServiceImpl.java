@@ -21,6 +21,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -35,6 +36,7 @@ import java.util.List;
  * @time : 14:52
  * @Description : 好友业务层实现类
  */
+@Service
 public class FriendsServiceImpl implements FriendsService {
 
     @Autowired
