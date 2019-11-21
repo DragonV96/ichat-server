@@ -49,7 +49,7 @@ public class WSServerInitializer extends ChannelInitializer<SocketChannel> {
 
 
         /**
-         * websocket 五福桥处理的协议，用于指定给客户端连接访问的路由：/ws
+         * websocket 服务器处理的协议，用于指定给客户端连接访问的路由：/ws
          * 本handler负责处理一些繁重复杂的事
          * 处理握手动作：handshaking（close，ping，pong）ping + pong = 心跳
          * websocket都是以frames进行传输的，不同数据类型对应的frames也不同
