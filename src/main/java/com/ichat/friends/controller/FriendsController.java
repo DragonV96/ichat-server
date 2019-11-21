@@ -27,8 +27,8 @@ import java.util.List;
  * @Description : 好友接口
  */
 @Slf4j
-@RequestMapping
-@RestController("friends")
+@RestController
+@RequestMapping("friends")
 @Api(tags = "好友接口", description = "好友接口")
 public class FriendsController {
 
@@ -106,9 +106,10 @@ public class FriendsController {
     @ApiOperation(value = "查询好友请求", notes = "查询好友请求")
     @PostMapping("/queryFriendRequests")
     public IChatJSONResult queryFriendRequests(String userId) throws Exception {
+        log.info("***查询好友请求*** userId = {}", userId);
         // 1. 判断myUserId和friendUsername不能为空
         if (StringUtils.isBlank(userId)) {
-            return IChatJSONResult.errorMsg("");
+            return IChatJSONResult.errorMsg("用户ID为空");
         }
         // 2. 查询用户接受到的添加好友申请
         return IChatJSONResult.ok(friendsService.queryFriendRequestList(userId));

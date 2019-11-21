@@ -21,8 +21,8 @@ import java.util.List;
  * @Description : 聊天接口
  */
 @Slf4j
-@RequestMapping
-@RestController("chat")
+@RestController
+@RequestMapping("chat")
 @Api(tags = "聊天接口", description = "聊天接口")
 public class ChatController {
 
