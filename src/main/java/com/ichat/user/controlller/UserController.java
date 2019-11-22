@@ -75,8 +75,8 @@ public class UserController {
 
         // 获取前端传过来的base64字符串，然后转换为文件对象再上传
         String base64Data = userBO.getHeadData();
-//        String userHeadPath = "\\usr\\local\\fastdfs\\tmp\\" + userBO.getUserId() + "userFace64.png";
-        String userHeadPath = "G:\\tmp\\" + userBO.getUserId() + "userFace64.png";
+        String userHeadPath = "\\usr\\local\\fastdfs\\tmp\\" + userBO.getUserId() + "userFace64.png";
+//        String userHeadPath = "G:\\tmp\\" + userBO.getUserId() + "userFace64.png";
         FileUtils.base64ToFile(userHeadPath, base64Data);
 
         // 上传文件到fastdfs

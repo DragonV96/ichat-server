@@ -6,7 +6,7 @@ host:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${host.private}:3306/ichat-dev?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://${host.local}:3306/ichat-dev?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
     type: com.zaxxer.hikari.HikariDataSource  # 连接池数据源类型,可省略
