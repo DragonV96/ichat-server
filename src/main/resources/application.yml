@@ -59,7 +59,7 @@ fdfs:
 
 logging:
   path: /usr/local/apps/ichat/log
-  file: ${logging.path}/ichat.log
+  file: ${logging.path}/ichat
   config: classpath:logback-spring.xml
   level:
     com.icaht: info
