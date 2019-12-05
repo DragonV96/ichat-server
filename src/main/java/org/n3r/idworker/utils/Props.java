@@ -17,7 +17,9 @@ public class Props {
         InputStream is = null;
         try {
             is = Props.tryResource(propertiesFileName, userHomeBasePath, Silent.ON);
-            if (is != null) properties.load(is);
+            if (is != null) {
+                properties.load(is);
+            }
         } catch (IOException e) {
             log.error("load properties error: {}", e.getMessage());
         } finally {
@@ -32,13 +34,19 @@ public class Props {
 
     public static InputStream tryResource(String propertiesFileName, String userHomeBasePath, Silent silent) {
         InputStream is = currentDirResource(new File(propertiesFileName));
-        if (is != null) return is;
+        if (is != null) {
+            return is;
+        }
 
         is = userHomeResource(propertiesFileName, userHomeBasePath);
-        if (is != null) return is;
+        if (is != null) {
+            return is;
+        }
 
         is = classpathResource(propertiesFileName);
-        if (is != null || silent == Silent.ON) return is;
+        if (is != null || silent == Silent.ON) {
+            return is;
+        }
 
         throw new RuntimeException("fail to find " + propertiesFileName + " in current dir or classpath");
     }
@@ -46,13 +54,17 @@ public class Props {
     private static InputStream userHomeResource(String pathname, String appHome) {
         String filePath = System.getProperty("user.home") + separator + appHome;
         File dir = new File(filePath);
-        if (!dir.exists()) return null;
+        if (!dir.exists()) {
+            return null;
+        }
 
         return currentDirResource(new File(dir, pathname));
     }
 
     private static InputStream currentDirResource(File file) {
-        if (!file.exists()) return null;
+        if (!file.exists()) {
+            return null;
+        }
 
         try {
             return new FileInputStream(file);

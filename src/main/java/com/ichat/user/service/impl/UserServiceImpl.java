@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
      * @param username
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     @Override
     public boolean queryUsernameIsExist(String username) {
         Users user = new Users();
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
      * @param password
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     @Override
     public Users queryUserForLogin(String username, String password) {
         // 利用逆向工具类查询用户登陆,省去了SQL语句的编写
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public Users saveUser(Users user) {
         String userId = sid.nextShort();
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public Users updateUserInfo(Users user) {
         userMapper.updateByPrimaryKeySelective(user);
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
      * @param userId
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     protected Users queryUserById(String userId){
         return userMapper.selectByPrimaryKey(userId);
     }
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
      * @param username
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     @Override
     public Users queryUserInfoByUsername(String username) {
         Example user = new Example(Users.class);

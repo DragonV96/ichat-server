@@ -56,8 +56,9 @@ public class IdWorker {
 
         if (lastMillis == timestamp) {
             sequence = (sequence + 1) & sequenceMask;
-            if (sequence == 0)
+            if (sequence == 0) {
                 timestamp = tilNextMillis(lastMillis);
+            }
         } else {
             sequence = 0;
         }
@@ -71,8 +72,9 @@ public class IdWorker {
 
     protected long tilNextMillis(long lastMillis) {
         long millis = millisGen();
-        while (millis <= lastMillis)
+        while (millis <= lastMillis) {
             millis = millisGen();
+        }
 
         return millis;
     }

@@ -1,30 +1,13 @@
-host:
-  private: 192.168.241.130
-  local: 127.0.0.1
-
-# 配置相关数据源 使用HikariCP数据源
-spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${host.private}:3306/ichat-dev?useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: root
-    type: com.zaxxer.hikari.HikariDataSource  # 连接池数据源类型,可省略
-    hikari:
-      connection-timeout: 30000   # 等待连接池分配链接的最大时长（毫秒），超过此时长还没可用的连接则发生SQLException，默认：30秒
-      minimum-idle: 5   # 最小连接数
-      maximum-pool-size: 15   # 最大连接数
-      auto-commit: true   # 自动提交
-      idle-timeout: 600000    # 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），默认：10分钟
-      pool-name: DatebookHikariCP   # 连接池名字
-      max-lifetime: 28740000    # 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认：30分钟，建议设置80分钟
-      connection-test-query: SELECT 1
-
 # Server服务端相关配置
 server:
   port: 8080    # 配置api端口号
   tomcat:
     uri-encoding: UTF-8  # tomcat的URI编码
+
+spring:
+  profiles:
+    active: dev
+#    active: prod
 
 # mybatis配置
 mybatis:
@@ -44,26 +27,6 @@ pagehelper:
   helper-dialect: mysql
   support-methods-arguments: true
   params: count:countSql
-
-# ===================================================================
-# 分布式文件系统FastDFS配置
-# ===================================================================
-fdfs:
-  so-timeout: 1501
-  connect-timeout: 601
-  thumb-image:             #缩略图生成参数
-    width: 80
-    height: 80
-  tracker-list:            #TrackerList参数,支持多个
-  - ${host.private}:22122
-
-logging:
-  path: /usr/local/apps/ichat/log
-  file: ${logging.path}/ichat
-  config: classpath:logback-spring.xml
-  level:
-    com.icaht: info
-
 
 
 

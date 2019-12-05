@@ -29,7 +29,9 @@ public class HttpReq {
     }
 
     public HttpReq param(String name, String value) {
-        if (params.length() > 0) params.append('&');
+        if (params.length() > 0) {
+            params.append('&');
+        }
         try {
             params.append(name).append('=').append(URLEncoder.encode(value, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
@@ -64,7 +66,9 @@ public class HttpReq {
             logger.error("exec error {}", e.getMessage());
             return null;
         } finally {
-            if (http != null) http.disconnect();
+            if (http != null) {
+                http.disconnect();
+            }
         }
 
     }
@@ -98,7 +102,9 @@ public class HttpReq {
     }
 
     private static String getCharset(String contentType) {
-        if (contentType == null) return "UTF-8";
+        if (contentType == null) {
+            return "UTF-8";
+        }
 
         String charset = null;
         for (String param : contentType.replace(" ", "").split(";")) {

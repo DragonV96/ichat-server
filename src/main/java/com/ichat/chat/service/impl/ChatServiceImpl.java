@@ -39,7 +39,7 @@ public class ChatServiceImpl implements ChatService {
      * @param chatMessage
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public String saveMsg(ChatMessage chatMessage) {
         ChatMsg msgDB = new ChatMsg();
@@ -60,7 +60,7 @@ public class ChatServiceImpl implements ChatService {
      * 批量签收消息
      * @param msgIdList
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void updateMsgSigned(List<String> msgIdList) {
         chatMsgMapperCustom.batchUpdateMsgSigned(msgIdList);
@@ -71,7 +71,7 @@ public class ChatServiceImpl implements ChatService {
      * @param acceptUserId
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     @Override
     public List<ChatMsg> getUnReadMsgList(String acceptUserId) {
         Example chatExample = new Example(ChatMsg.class);

@@ -29,7 +29,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("friends")
-@Api(tags = "好友接口", description = "好友接口")
+@Api(tags = "好友接口")
 public class FriendsController {
 
     @Autowired
@@ -57,7 +57,7 @@ public class FriendsController {
         // 前置条件 - 2. 搜索的账号是自己，返回 [不能添加自己为好友]
         // 前置条件 - 3. 搜索的用户已经是好友，返回 [好友已存在，不能重复添加好友]
         Integer status = friendsService.preConditionSearchFriends(myUserId, friendUsername);
-        if (status == SearchFriendsStatusEnum.SUCCESS.status) {
+        if (status.equals(SearchFriendsStatusEnum.SUCCESS.status)) {
             Users user = userService.queryUserInfoByUsername(friendUsername);
 
             UsersVO usersVO = new UsersVO();
@@ -88,7 +88,7 @@ public class FriendsController {
         // 前置条件 - 2. 搜索的账号是自己，返回 [不能添加自己为好友]
         // 前置条件 - 3. 搜索的用户已经是好友，返回 [好友已存在，不能重复添加好友]
         Integer status = friendsService.preConditionSearchFriends(myUserId, friendUsername);
-        if (status == SearchFriendsStatusEnum.SUCCESS.status) {
+        if (status.equals(SearchFriendsStatusEnum.SUCCESS.status)) {
             friendsService.sendFriendRequest(myUserId, friendUsername);
         } else {
             String errorMsg = SearchFriendsStatusEnum.getMsgByKey(status);
@@ -136,10 +136,10 @@ public class FriendsController {
             return IChatJSONResult.errorMsg("");
         }
 
-        if (operType == OperatorFriendRequestTypeEnum.IGNORE.type) {
+        if (operType.equals(OperatorFriendRequestTypeEnum.IGNORE.type)) {
             // 3. 判断如果忽略好友请求，则直接删除好友请求的数据库表记录
             friendsService.deleteFriendRequest(sendUserId, accpetUserId);
-        } else if (operType == OperatorFriendRequestTypeEnum.PASS.type) {
+        } else if (operType.equals(OperatorFriendRequestTypeEnum.PASS.type)) {
             // 4. 判断如果通过好友请求，则互相增加好友记录到数据库好友表
             // 5. 然后删除好友请求的数据库表记录
             friendsService.passFriendRequest(sendUserId, accpetUserId);

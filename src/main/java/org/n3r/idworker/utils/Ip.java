@@ -37,7 +37,9 @@ public class Ip {
             NetworkInterface i = (NetworkInterface) en.nextElement();
             for (Enumeration en2 = i.getInetAddresses(); en2.hasMoreElements(); ) {
                 InetAddress addr = (InetAddress) en2.nextElement();
-                if (addr.isLoopbackAddress()) continue;
+                if (addr.isLoopbackAddress()) {
+                    continue;
+                }
 
                 if (addr instanceof Inet4Address) {
                     return addr;

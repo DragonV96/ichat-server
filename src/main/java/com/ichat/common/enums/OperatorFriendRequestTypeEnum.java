@@ -22,7 +22,7 @@ public enum OperatorFriendRequestTypeEnum {
 
     public static String getMsgByType(Integer type) {
         for (OperatorFriendRequestTypeEnum operatorFriendRequestTypeEnum : OperatorFriendRequestTypeEnum.values()){
-            if(operatorFriendRequestTypeEnum.getType() == type){
+            if(operatorFriendRequestTypeEnum.getType().equals(type)){
                 return operatorFriendRequestTypeEnum.msg;
             }
         }

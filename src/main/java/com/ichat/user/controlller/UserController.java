@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RestController
 @RequestMapping("user")
-@Api(tags = "用户接口", description = "用户接口")
+@Api(tags = "用户接口")
 public class UserController {
 
     @Autowired
@@ -89,7 +89,7 @@ public class UserController {
 
         // 获取缩略图的url
         String thump = "_80x80.";
-        String arr[] = url.split("\\.");
+        String[] arr = url.split("\\.");
         String tumpImgUrl = arr[0] + thump + arr[1];    // 拼接头像缩略图的url地址
 
         // 更新用户头像

@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("chat")
-@Api(tags = "聊天接口", description = "聊天接口")
+@Api(tags = "聊天接口")
 public class ChatController {
 
     @Autowired

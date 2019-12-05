@@ -63,7 +63,7 @@ public class FriendsServiceImpl implements FriendsService {
      * @param friendUsername
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     @Override
     public Integer preConditionSearchFriends(String myUserId, String friendUsername) {
 
@@ -97,7 +97,7 @@ public class FriendsServiceImpl implements FriendsService {
      * @param myUserId
      * @param friendUsername
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void sendFriendRequest(String myUserId, String friendUsername) {
 
@@ -129,7 +129,7 @@ public class FriendsServiceImpl implements FriendsService {
      * @param acceptUserId
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     @Override
     public List<FriendRequestVO> queryFriendRequestList(String acceptUserId) {
         return friendsRequestMapperCustom.queryFriendRequestList(acceptUserId);
@@ -140,7 +140,7 @@ public class FriendsServiceImpl implements FriendsService {
      * @param sendUserId
      * @param accpetUserId
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void deleteFriendRequest(String sendUserId, String accpetUserId) {
         // 1. 查询发送好友请求记录表
@@ -156,7 +156,7 @@ public class FriendsServiceImpl implements FriendsService {
      * @param sendUserId
      * @param accpetUserId
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void passFriendRequest(String sendUserId, String accpetUserId) {
         saveFriends(sendUserId, accpetUserId);
@@ -187,7 +187,7 @@ public class FriendsServiceImpl implements FriendsService {
      * @param sendUserId
      * @param acceptUserId
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     protected void saveFriends(String sendUserId, String acceptUserId){
         MyFriends myFriends = new MyFriends();
         String recordId = sid.nextShort();
@@ -202,7 +202,7 @@ public class FriendsServiceImpl implements FriendsService {
      * @param userId
      * @return
      */
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     @Override
     public List<MyFriendsVO> queryMyFriends(String userId) {
         List<MyFriendsVO> myFriends = myFriendsMapperCustom.queryMyFriends(userId);
